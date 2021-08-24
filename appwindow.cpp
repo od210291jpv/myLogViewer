@@ -5,7 +5,7 @@
 #include <QMenu>
 #include <QMenuBar>
 #include <QStatusBar>
-
+#include<QMainWindow>
 
 AppWindow::AppWindow(QWidget *parent) : QMainWindow(parent)
 {
