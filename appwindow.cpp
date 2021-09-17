@@ -6,6 +6,9 @@
 #include <QMenuBar>
 #include <QStatusBar>
 #include<QMainWindow>
+#include<QTabWidget>
+#include <QBoxLayout>
+#include <QTextEdit>
 
 AppWindow::AppWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -29,4 +32,12 @@ AppWindow::AppWindow(QWidget *parent) : QMainWindow(parent)
 
     QAction *quit2 = toolbar->addAction(QIcon(quitpix), "Quit application");
     connect(quit2, &QAction::triggered, qApp, &QApplication::quit);
+
+    QTextEdit *edit = new QTextEdit();
+    QBoxLayout * layout = new QBoxLayout(QBoxLayout::LeftToRight, this);
+    setLayout(layout);
+    QTabWidget *mainTab = new QTabWidget(this);
+    mainTab->addTab(edit, "Tab1");
+    layout->addWidget(mainTab);
+    setCentralWidget(mainTab);
 }
