@@ -31,13 +31,30 @@ AppWindow::AppWindow(QWidget *parent) : QMainWindow(parent)
     toolbar->addSeparator();
 
     QAction *quit2 = toolbar->addAction(QIcon(quitpix), "Quit application");
-    connect(quit2, &QAction::triggered, qApp, &QApplication::quit);
+    QAction *closeLog = toolbar->addAction(QIcon(quitpix), "Close last log");
 
-    QTextEdit *edit = new QTextEdit();
+    connect(quit2, &QAction::triggered, this, &QApplication::quit);
+
+
+    edit = new QTextEdit();
     QBoxLayout * layout = new QBoxLayout(QBoxLayout::LeftToRight, this);
     setLayout(layout);
-    QTabWidget *mainTab = new QTabWidget(this);
-    mainTab->addTab(edit, "Tab1");
-    layout->addWidget(mainTab);
-    setCentralWidget(mainTab);
+    defaultTab = new QTabWidget(this);
+    defaultTab->addTab(edit, "Tab1");
+    edit->append("You can view up to 5 logs");
+
+    connect(closeLog, &QAction::triggered, this, &AppWindow::CloseLastTab);
+
+    layout->addWidget(defaultTab);
+    setCentralWidget(defaultTab);
+}
+
+void AppWindow::CloseLastTab()
+{
+    defaultTab[defaultTab->count() - 1].close();
+}
+
+void AppWindow::AddNewTab(QString tabTitle)
+{
+    //defaultTab->addTab();
 }
