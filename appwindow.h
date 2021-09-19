@@ -7,6 +7,8 @@
 #include <QAction>
 #include <array>
 #include <QFileDialog>
+#include <QFile>
+#include <QTextStream>
 
 class AppWindow : public QMainWindow
 {
@@ -18,15 +20,18 @@ public:
 
 public slots:
     void CloseLastTab();
-    QString openLogFile();
+    void * openLogFile();
 
 protected:
-    void AddNewTab(QString tabTitle, QTextEdit * tab_editor);
+    void AddNewTab(QString tabTitle);
     std::array<QTextEdit *, 5> editors;
+    virtual void readLog(QString logPath);
 
 private:
     QTabWidget * defaultTab;
     QTextEdit *edit;   
+    QAction *closeLog;
+    unsigned long long editors_count = 0;
 };
 
 #endif // APPWINDOW_H

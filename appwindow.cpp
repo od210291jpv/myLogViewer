@@ -14,13 +14,13 @@ AppWindow::AppWindow(QWidget *parent) : QMainWindow(parent)
 {
     QPixmap quitpix("quit.png");
 
-    QAction *quit = new QAction("&Quit", this);
     QAction *openLog = new QAction("&Open new log", this);
+    QAction *quit = new QAction("&Quit", this);
 
     QMenu *file;
     file = menuBar()->addMenu("&File");
-    file->addAction(quit);
     file->addAction(openLog);
+    file->addAction(quit);
 
     connect(quit, &QAction::triggered, qApp, &QApplication::quit);
 
@@ -28,19 +28,20 @@ AppWindow::AppWindow(QWidget *parent) : QMainWindow(parent)
     toolbar->addSeparator();
 
     QAction *quit2 = toolbar->addAction(QIcon(quitpix), "Quit application");
-    QAction *closeLog = toolbar->addAction(QIcon(quitpix), "Close last log");
+    closeLog = toolbar->addAction(QIcon(quitpix), "Close last log");
 
     connect(quit2, &QAction::triggered, this, &QApplication::quit);
     connect(openLog, &QAction::triggered, this, &AppWindow::openLogFile);
 
 
     edit = new QTextEdit();
-    editors[0] = edit;
+    editors[editors_count] = edit;
+    edit->setEnabled(false);
     QBoxLayout * layout = new QBoxLayout(QBoxLayout::LeftToRight, this);
     setLayout(layout);
     defaultTab = new QTabWidget(this);
-    defaultTab->addTab(edit, "Tab1");
-    edit->append("You can view up to 5 logs");
+    defaultTab->addTab(edit, "Default");
+    edit->append("You can view up to 4 logs");
 
     connect(closeLog, &QAction::triggered, this, &AppWindow::CloseLastTab);
 
@@ -50,15 +51,48 @@ AppWindow::AppWindow(QWidget *parent) : QMainWindow(parent)
 
 void AppWindow::CloseLastTab()
 {
-    defaultTab[defaultTab->count() - 1].close();
+    if(defaultTab->count() == 1)
+    {
+        closeLog->setEnabled(false);
+        return;
+    }
+
+    defaultTab->removeTab(defaultTab->count() - 1);
+    editors_count -= 1;
 }
 
-void AppWindow::AddNewTab(QString tabTitle, QTextEdit * tab_editor)
+void AppWindow::readLog(QString logPath)
 {
-    defaultTab->addTab(tab_editor, tabTitle);
+    QFile inputFile(logPath);
+    if (inputFile.open(QIODevice::ReadOnly))
+    {
+       QTextStream in(&inputFile);
+       while (!in.atEnd())
+       {
+          QString line = in.readLine();
+          editors[editors_count]->append(line);
+       }
+       inputFile.close();
+    }
 }
 
-QString AppWindow::openLogFile()
+void AppWindow::AddNewTab(QString tabTitle)
 {
-    return QFileDialog::getOpenFileName(this, tr("Open Image"));
+
+    defaultTab->addTab(editors[editors_count], tabTitle);
+
+    if(!closeLog->isEnabled())
+    {
+        closeLog->setEnabled(true);
+    }
+}
+
+void * AppWindow::openLogFile()
+{
+    editors_count += 1;
+    QString log = QFileDialog::getOpenFileName(this, tr("Open Image"));
+    edit->append(log);
+    editors[editors_count] = new QTextEdit();
+    AddNewTab(log + QString::number( editors_count ));
+    readLog(log);
 }
