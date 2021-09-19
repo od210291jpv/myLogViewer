@@ -12,8 +12,6 @@
 
 AppWindow::AppWindow(QWidget *parent) : QMainWindow(parent)
 {
-    QPixmap newpix("new.png");
-    QPixmap openpix("open.png");
     QPixmap quitpix("quit.png");
 
     QAction *quit = new QAction("&Quit", this);
@@ -27,16 +25,17 @@ AppWindow::AppWindow(QWidget *parent) : QMainWindow(parent)
     connect(quit, &QAction::triggered, qApp, &QApplication::quit);
 
     QToolBar *toolbar = addToolBar("main toolbar");
-    toolbar->addAction(QIcon(openpix), "Open File");
     toolbar->addSeparator();
 
     QAction *quit2 = toolbar->addAction(QIcon(quitpix), "Quit application");
     QAction *closeLog = toolbar->addAction(QIcon(quitpix), "Close last log");
 
     connect(quit2, &QAction::triggered, this, &QApplication::quit);
+    connect(openLog, &QAction::triggered, this, &AppWindow::openLogFile);
 
 
     edit = new QTextEdit();
+    editors[0] = edit;
     QBoxLayout * layout = new QBoxLayout(QBoxLayout::LeftToRight, this);
     setLayout(layout);
     defaultTab = new QTabWidget(this);
@@ -54,7 +53,12 @@ void AppWindow::CloseLastTab()
     defaultTab[defaultTab->count() - 1].close();
 }
 
-void AppWindow::AddNewTab(QString tabTitle)
+void AppWindow::AddNewTab(QString tabTitle, QTextEdit * tab_editor)
 {
-    //defaultTab->addTab();
+    defaultTab->addTab(tab_editor, tabTitle);
+}
+
+QString AppWindow::openLogFile()
+{
+    return QFileDialog::getOpenFileName(this, tr("Open Image"));
 }

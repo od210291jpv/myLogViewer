@@ -5,6 +5,8 @@
 #include <QTabWidget>
 #include<QTextEdit>
 #include <QAction>
+#include <array>
+#include <QFileDialog>
 
 class AppWindow : public QMainWindow
 {
@@ -16,12 +18,15 @@ public:
 
 public slots:
     void CloseLastTab();
+    QString openLogFile();
 
 protected:
-    void AddNewTab(QString tabTitle);
+    void AddNewTab(QString tabTitle, QTextEdit * tab_editor);
+    std::array<QTextEdit *, 5> editors;
+
 private:
     QTabWidget * defaultTab;
-    QTextEdit *edit;
+    QTextEdit *edit;   
 };
 
 #endif // APPWINDOW_H
