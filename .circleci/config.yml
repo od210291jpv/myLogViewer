@@ -1,0 +1,21 @@
+version: 2.1
+
+orbs:
+  win: circleci/windows@2.2.0
+
+jobs:
+  build:
+    executor:
+      name: win/default
+      shell: cmd
+    steps:
+      - checkout
+      - run:
+          name: Installing g++
+          command: 'choco install mingw'
+      - run:
+          name: Installing cmake
+          command: 'choco install cmake -y'
+      - run:
+          name: Running cmake
+          command: 'cmake myLogViewer'
