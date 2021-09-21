@@ -5,10 +5,11 @@
 #include <QTabWidget>
 #include<QTextEdit>
 #include <QAction>
-#include <array>
+#include <vector>
 #include <QFileDialog>
 #include <QFile>
 #include <QTextStream>
+#include <logitem.h>
 
 class AppWindow : public QMainWindow
 {
@@ -24,12 +25,11 @@ public slots:
 
 protected:
     void AddNewTab(QString tabTitle);
-    std::array<QTextEdit *, 5> editors;
-    void readLog(QString logPath);
+    std::vector<Logitem> editors;
+    void readLog();
 
 private:
     QTabWidget * defaultTab;
-    QTextEdit *edit;   
     QAction *closeLog;
     unsigned long long editors_count = 0;
 };

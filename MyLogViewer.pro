@@ -27,11 +27,13 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    appwindow.cpp
+    appwindow.cpp \
+    logitem.cpp
 
 HEADERS += \
         mainwindow.h \
-    appwindow.h
+    appwindow.h \
+    logitem.h
 
 FORMS += \
         mainwindow.ui
