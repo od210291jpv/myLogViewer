@@ -20,12 +20,12 @@ public:
 
 public slots:
     void CloseLastTab();
-    void * openLogFile();
+    void openLogFile();
 
 protected:
     void AddNewTab(QString tabTitle);
     std::array<QTextEdit *, 5> editors;
-    virtual void readLog(QString logPath);
+    void readLog(QString logPath);
 
 private:
     QTabWidget * defaultTab;

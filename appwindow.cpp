@@ -87,7 +87,7 @@ void AppWindow::AddNewTab(QString tabTitle)
     }
 }
 
-void * AppWindow::openLogFile()
+void AppWindow::openLogFile()
 {
     editors_count += 1;
     QString log = QFileDialog::getOpenFileName(this, tr("Open Image"));
