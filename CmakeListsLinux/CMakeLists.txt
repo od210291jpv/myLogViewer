@@ -8,5 +8,5 @@ set(CMAKE_AUTOUIC ON)
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
-add_executable(MyLogViewer appwindow.cpp main.cpp mainwindow.cpp mainwindow.ui)
+add_executable(MyLogViewer appwindow.cpp logitem.cpp main.cpp mainwindow.cpp mainwindow.ui)
 target_link_libraries(MyLogViewer PRIVATE Qt5::Widgets)

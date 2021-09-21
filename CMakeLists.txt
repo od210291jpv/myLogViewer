@@ -12,5 +12,5 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 find_package(Qt5 REQUIRED Widgets)
 
 
-add_executable(MyLogViewer appwindow.cpp main.cpp mainwindow.cpp mainwindow.ui)
+add_executable(MyLogViewer appwindow.cpp logitem.cpp main.cpp mainwindow.cpp mainwindow.ui)
 target_link_libraries(MyLogViewer PRIVATE Qt5::Widgets)
