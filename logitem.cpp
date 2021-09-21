@@ -7,4 +7,6 @@ Logitem::Logitem(QTextEdit * pTabEditor, QFile * logF) : textEdit(pTabEditor), l
 
 Logitem::~Logitem()
 {
+    //delete textEdit;
+    //delete logFile;
 }

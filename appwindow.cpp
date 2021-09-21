@@ -56,7 +56,9 @@ void AppWindow::CloseLastTab()
     }
 
     defaultTab->removeTab(defaultTab->count() - 1);
+    editors.pop_back();
     editors_count -= 1;
+
 }
 
 void AppWindow::readLog()
@@ -70,7 +72,7 @@ void AppWindow::readLog()
           QString line = in.readLine();
           editors[editors_count].textEdit->append(line);
        }
-       inputFile->close();
+       //inputFile->close();
     }
 }
 
@@ -87,8 +89,10 @@ void AppWindow::AddNewTab(QString tabTitle)
 
 void AppWindow::openLogFile()
 {
+    if(editors_count >= 5)
+        return;
     editors_count += 1;
-    QString log = QFileDialog::getOpenFileName(this, tr("Open Image"));
+    QString log = QFileDialog::getOpenFileName(this, tr("Open log file"));
     editors[0].textEdit->append(log);
     editors.push_back(Logitem(new QTextEdit, new QFile(log)));
     AddNewTab(log + QString::number(editors_count));
